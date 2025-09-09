@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Скачать презентацию</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+            background-color: #f0f0f0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .btn {
+            display: inline-block;
+            padding: 15px 30px;
+            background: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 18px;
+            margin-top: 20px;
+            transition: background 0.3s;
+        }
+        .btn:hover {
+            background: #0056b3;
+        }
+        .filename {
+            color: #666;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Краткий курс по synology</h1>
+        <p>Нажмите на кнопку ниже чтобы скачать презентацию</p>
+        
+        <!-- ЗАМЕНИТЕ "presentation.pptx" на имя вашего файла -->
+        <a href="Краткий курс по synology.pptx" class="btn" download>Скачать презентацию</a>
+        
+        <p class="filename">Формат: PPTX (Microsoft PowerPoint)</p>
+        <p class="filename">Размер: 725КБ</p> <!-- Укажите актуальный размер -->
+    </div>
+</body>
+</html>

@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Временный сервер для презентации</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a6c 0%, #b21f1f 50%, #fdbb2d 100%);
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .container {
+            max-width: 1000px;
+            width: 100%;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+        
+        header {
+            background: #1a2a6c;
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border-radius: 10px;
+            background: #f8f9fa;
+        }
+        
+        .section h2 {
+            color: #1a2a6c;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #fdbb2d;
+        }
+        
+        .status-bar {
+            background: #e9ecef;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+        }
+        
+        .status-indicator {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: #28a745;
+            margin-right: 15px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        .instructions {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #1a2a6c;
+        }
+        
+        code {
+            background: #2b303b;
+            color: #dee2e6;
+            padding: 12px;
+            border-radius: 5px;
+            display: block;
+            margin: 10px 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: #1a2a6c;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            margin: 10px 5px;
+        }
+        
+        .btn:hover {
+            background: #253a8c;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-secondary {
+            background: #fdbb2d;
+            color: #333;
+        }
+        
+        .btn-secondary:hover {
+            background: #fdc42d;
+        }
+        
+        .qr-container {
+            text-align: center;
+            margin: 20px 0;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+        }
+        
+        #qrcode {
+            margin: 20px auto;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            display: inline-block;
+        }
+        
+        .url-display {
+            background: #2b303b;
+            color: #dee2e6;
+            padding: 12px;
+            border-radius: 5px;
+            margin: 15px 0;
+            word-break: break-all;
+            font-family: 'Courier New', monospace;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #f8f9fa;
+            color: #666;
+            font-size: 0.9rem;
+            width: 100%;
+        }
+        
+        .note {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .container {
+                border-radius: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Сервер для презентации</h1>
+            <p class="subtitle">Ваш локальный сервер запущен и готов к работе</p>
+        </header>
+        
+        <div class="content">
+            <div class="section">
+                <h2>Текущий статус сервера</h2>
+                <div class="status-bar">
+                    <div class="status-indicator"></div>
+                    <div>
+                        <strong>Сервер активен</strong>
+                        <p>Ваш локальный сервер работает на порту 8000</p>
+                    </div>
+                </div>
+                
+                <div class="instructions">
+                    <h3>Локальный доступ</h3>
+                    <p>На этом устройстве вы можете просмотреть сайт по адресу:</p>
+                    <code>http://localhost:8000</code>
+                    <a href="http://localhost:8000" class="btn" target="_blank">Открыть локально</a>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Доступ в локальной сети</h2>
+                
+                <div class="instructions">
+                    <h3>Шаг 1: Найдите ваш IP-адрес</h3>
+                    <p>Чтобы другие устройства в вашей сети могли получить доступ к сайту, им нужно знать IP-адрес вашего ноутбука.</p>
+                    
+                    <p>Как найти IP-адрес:</p>
+                    <ul>
+                        <li><strong>Windows:</strong> Откройте командную строку и введите <code>ipconfig</code>. Найдите "IPv4-адрес"</li>
+                        <li><strong>Mac:</strong> Откройте Системные настройки → Сеть</li>
+                        <li><strong>Linux:</strong> Откройте терминал и введите <code>ip addr show</code> или <code>ifconfig</code></li>
+                    </ul>
+                </div>
+                
+                <div class="instructions">
+                    <h3>Шаг 2: Предоставьте доступ</h3>
+                    <p>На других устройствах в той же сети откройте браузер и перейдите по адресу:</p>
+                    <code id="localNetworkUrl">http://ВАШ_IP:8000</code>
+                    <button class="btn" onclick="updateLocalUrl()">Обновить IP-адрес</button>
+                </div>
+                
+                <div class="qr-container">
+                    <h3>QR-код для локального доступа</h3>
+                    <div id="qrcode-local"></div>
+                    <p>Отсканируйте этот код на другом устройстве в той же сети</p>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Доступ из интернета с помощью Ngrok</h2>
+                
+                <div class="instructions">
+                    <h3>Шаг 1: Установите Ngrok</h3>
+                    <p>Скачайте Ngrok с официального сайта и распакуйте архив:</p>
+                    <a href="https://ngrok.com/download" class="btn" target="_blank">Скачать Ngrok</a>
+                </div>
+                
+                <div class="instructions">
+                    <h3>Шаг 2: Запустите Ngrok</h3>
+                    <p>Откройте новый терминал и выполните команду:</p>
+                    <code>ngrok http 8000</code>
+                    <p>Ngrok создаст публичный URL для вашего локального сервера.</p>
+                </div>
+                
+                <div class="instructions">
+                    <h3>Шаг 3: Поделитесь ссылкой</h3>
+                    <p>Скопируйте предоставленный Ngrok URL (выглядит как https://xxxxxx.ngrok.io) и поделитесь им.</p>
+                    <div class="url-display" id="ngrokUrl">https://your-subdomain.ngrok.io</div>
+                    <button class="btn" onclick="copyUrl()">Скопировать URL</button>
+                </div>
+                
+                <div class="qr-container">
+                    <h3>QR-код для интернет-доступа</h3>
+                    <div id="qrcode-internet"></div>
+                    <div>
+                        <input type="text" id="urlInput" placeholder="Введите ваш Ngrok URL" class="url-display">
+                        <button class="btn" onclick="generateInternetQR()">Сгенерировать QR-код</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="note">
+                <h3>Важно!</h3>
+                <p>После завершения демонстрации не забудьте остановить сервер, нажав Ctrl+C в терминале, где запущен Python-сервер.</p>
+            </div>
+        </div>
+        
+        <footer>
+            <p>© 2023 Все права защищены. Сервер запущен с вашего ноутбука.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Генерация QR-кода для локального доступа
+        document.addEventListener('DOMContentLoaded', function() {
+            // Генерируем QR-код для localhost
+            new QRCode(document.getElementById("qrcode-local"), {
+                text: "http://localhost:8000",
+                width: 150,
+                height: 150,
+                colorDark: "#000000",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.H
+            });
+            
+            // Пытаемся определить локальный IP-адрес
+            updateLocalUrl();
+        });
+        
+        // Функция для обновления локального URL
+        function updateLocalUrl() {
+            // В реальном приложении здесь можно использовать WebRTC для определения IP
+            // Но из соображений безопасности браузеры не позволяют получить локальный IP через JavaScript
+            // Поэтому просто показываем инструкцию
+            
+            const urlElement = document.getElementById('localNetworkUrl');
+            urlElement.textContent = "http://10.16.72.49:8000";
+            
+            // Генерируем QR-код с общим URL
+            document.getElementById("qrcode-local").innerHTML = "";
+            new QRCode(document.getElementById("qrcode-local"), {
+                text: "http://10.16.72.49:8000",
+                width: 150,
+                height: 150,
+                colorDark: "#000000",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.H
+            });
+        }
+        
+        // Функция для генерации QR-кода для интернет-доступа
+        function generateInternetQR() {
+            const url = document.getElementById('urlInput').value;
+            if (url) {
+                document.getElementById("qrcode-internet").innerHTML = "";
+                new QRCode(document.getElementById("qrcode-internet"), {
+                    text: url,
+                    width: 150,
+                    height: 150,
+                    colorDark: "#000000",
+                    colorLight: "#ffffff",
+                    correctLevel: QRCode.CorrectLevel.H
+                });
+            } else {
+                alert("Пожалуйста, введите URL, полученный от Ngrok");
+            }
+        }
+        
+        // Функция для копирования URL в буфер обмена
+        function copyUrl() {
+            const url = document.getElementById('ngrokUrl').textContent;
+            navigator.clipboard.writeText(url).then(function() {
+                alert("URL скопирован в буфер обмена: " + url);
+            }, function() {
+                alert("Не удалось скопировать URL");
+            });
+        }
+        
+        // Эмуляция получения Ngrok URL (в реальности пользователь введет его вручную)
+        document.getElementById('urlInput').value = "https://your-subdomain.ngrok.io";
+    </script>
+</body>
+</html>
